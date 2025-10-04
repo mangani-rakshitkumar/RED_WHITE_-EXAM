@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        .AA {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .one,
+        .two,
+        .three {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            background-color:  rgba(55, 233, 55, 0.73);
+        }   
+
+        .AA .one button{
+            width: 100px;
+            height: 40px;
+            border: none;
+            outline: none;
+        }
+
+        .BB {
+            width: 600px;
+            height: 150px;
+            border: 1px solid black;
+        }
+
+        .CC {
+            width: 200px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .CC h1 {
+            background-color: white;
+            font-size: 50px;
+        }
+
+        .DD {
+            width: 600px;
+            height: 300px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(55, 233, 55, 0.73);
+        }
+
+        .DD .four {
+            width: 50%;
+            height: 100%;
+            border: 1px solid rgb(7, 220, 49);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .DD .four input {
+            width: 120px;
+            height: 60px;
+            color: white;
+            border: 2px solid white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .DD button {
+            width: 100px;
+            height: 30px;
+            border: 2px solid black;
+            background-color: white;
+        }
+
+        .DD .five {
+            width: 50%;
+            height: 100%;
+            border: 1px solid rgb(7, 220, 49);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            gap: 10px;
+            padding-left: 30px;
+            color: white;
+        }
+
+        .DD .five h4 {
+            text-align: start;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="AA">
+        <div class="BB">
+            <div class="one">
+                <button>Again!</button>
+            </div>
+            <div class="two">
+                <h1 style="color: white;">Guess My Number!</h1>
+            </div>
+            <div class="three">
+                <p style="color:white"><br">(Between 1 and 20)</p>
+            </div>
+        </div>
+        <div class="CC">
+            <h1>?</h1>
+        </div>
+        <div class="DD">
+            <div class="four">
+                <input type="number" min="1" max="20" class="guess">
+                <button>Check !</button>
+            </div>
+            <div class="five">
+                <h4>Correct Number!</h4>
+                <h4>Score :20 </h4>
+                <h4>Highscore :20 </h4>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    let secretNumber = Math.trunc(Math.random() * 20) + 1;
+    let score = 20;
+    let highscore = 0;
+    let numberDisplay = document.querySelector(".CC h1");
+    let guessInput = document.querySelector(".DD .four input");
+    let messageDisplay = document.querySelector(".DD .five h4:nth-of-type(1)");
+    let scoreDisplay = document.querySelector(".DD .five h4:nth-of-type(2)");
+    let highscoreDisplay = document.querySelector(".DD .five h4:nth-of-type(3)");
+    let checkBtn = document.querySelector(".DD .four button");
+    let againBtn = document.querySelector(".one button");
+
+    function displayMessage(message) {
+        messageDisplay.textContent = message ;
+    }
+
+    function displayScore(score) {
+        scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    function displayHighscore(highscore) {
+        highscoreDisplay.textContent = `Highscore: ${highscore}`;
+    }
+
+    checkBtn.addEventListener('click', function() {
+        let guess = Number(guessInput.value);
+        if (!guess) {
+            displayMessage('No number!');
+        } else if (guess === secretNumber) {
+            displayMessage('Correct Number!');
+            numberDisplay.textContent = secretNumber;
+            if (score > highscore) {
+                highscore = score;
+                displayHighscore(highscore);
+            }
+        } else if (guess > secretNumber) {
+            displayMessage('Too high!');
+            score--;
+            displayScore(score);
+        } else {
+            displayMessage('Too low!');
+            score--;
+            displayScore(score);
+        }
+    });
+
+    againBtn.addEventListener('click', function() {
+        secretNumber = Math.trunc(Math.random() * 20) + 1;
+        score = 20;
+        displayMessage('Start guessing...');
+        displayScore(score);
+        numberDisplay.textContent = '?';
+        guessInput.value = '';
+    });
+
+    displayMessage('Start guessing...');
+    displayScore(score);
+    displayHighscore(highscore);
+</script>
